@@ -1,19 +1,26 @@
-import requests
 import streamlit as st
-import random
-st.title("レシピ検索")
-food = st.text_input("英語で食材を入力してください（例: chicken）")
-num=random.randint(0, 50)
-if st.button("検索"):
-    if food:
-        l = "https://www.themealdb.com/api/json/v1/1/filter.php"
-        response = requests.get(l, params={"i": food})
+import requests
+st.title("年齢予測アプリ")
+name = st.text_input("名前")
+if st.button("年齢を予測する"):
+    if not name:
+        st.warning("名前を入力してください。")
+        st.stop()
+    params = {"name": name}
+    response = requests.get(
+        "https://api.agify.io",
+        params=params
+    )
+    if response.ok:
         data = response.json()
-        if data["meals"]:
-            meal = data["meals"][num]#左の[０]を変えることができる。
-            st.subheader(meal["strMeal"])
-            st.image(meal["strMealThumb"])
+        if data["age"] is not None:
+            st.metric(
+                label=f"{data['name']} の推定年齢",
+                value=f"{data['age']}歳"
+            )          
         else:
-            st.write("レシピが見つかりませんでした。")
+            st.warning("この名前のデータが見つかりませんでした。")
     else:
-        st.write("食材を入力してください。")
+        st.error("APIとの通信に失敗しました。")
+        st.write(response.status_code)
+        st.write(response.text)    
