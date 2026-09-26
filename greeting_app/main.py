@@ -17,13 +17,10 @@ if st.button("年齢を予測する"):
             st.metric(
                 label=f"{data['name']} の推定年齢",
                 value=f"{data['age']}歳"
-            )
-            
+            )          
         else:
             st.warning("この名前のデータが見つかりませんでした。")
     else:
         st.error("APIとの通信に失敗しました。")
         st.write(response.status_code)
-        st.write(response.text)
-        
-
+        st.write(response.text)    
