@@ -3,7 +3,7 @@ import streamlit as st
 import random
 st.title("レシピ検索")
 food = st.text_input("英語で食材を入力してください（例: chicken）")
-num=random.randint(0, 30)
+num=random.randint(0, 50)
 if st.button("検索"):
     if food:
         l = "https://www.themealdb.com/api/json/v1/1/filter.php"
